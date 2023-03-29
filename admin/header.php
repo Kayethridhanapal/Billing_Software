@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>PHP IMS</title>
+    <title>ARTHAA TEXTILES</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
@@ -19,7 +19,7 @@
 <div id="header">
 
     <h2 style="color: white;position: absolute">
-        <a href="dashboard.html" style="color:white; margin-left: 30px; margin-top: 40px">PHP IMS</a>
+        <a href="dashboard.html" style="color:white; margin-left: 30px; margin-top: 40px">ARTHAA</a>
     </h2>
 </div>
 
@@ -49,6 +49,9 @@
     <ul>
         <li class="active">
             <a href="index.html"><i class="icon icon-home"></i><span>Dashboard</span></a>
+        </li>
+        <li>
+            <a href="add_new_user.php"><i class="icon icon-user"></i><span>Add new user</span></a>
         </li>
 
         <li class="submenu"><a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span
