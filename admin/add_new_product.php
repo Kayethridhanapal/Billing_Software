@@ -7,7 +7,7 @@ include "../user/connection.php";
     <!--breadcrumbs-->
     <div id="content-header">
         <div id="breadcrumb"><a href="index.html"  class="tip-bottom"><i class="icon-home"></i>
-            Home</a></div>
+            Add new product</a></div>
     </div>
     <!--End-breadcrumbs-->
 
@@ -18,45 +18,60 @@ include "../user/connection.php";
     <div class="span12">
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-          <h5>Add new user</h5>
+          <h5>Add new product</h5>
         </div>
         <div class="widget-content nopadding">
           <form name="form1" action="" method="post" class="form-horizontal">
-            <div class="control-group">
-              <label class="control-label">First Name :</label>
+
+          <div class="control-group">
+              <label class="control-label">Select company</label>
               <div class="controls">
-                <input type="text" class="span11" placeholder="First name" name="firstname"/>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Last Name :</label>
-              <div class="controls">
-                <input type="text" class="span11" placeholder="Last name" name="lastname"/>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">User Name :</label>
-              <div class="controls">
-                <input type="text" class="span11" placeholder="User name" name="username"/>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Password input</label>
-              <div class="controls">
-                <input type="password"  class="span11" placeholder="Enter Password" name="password" />
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Select role</label>
-              <div class="controls">
-                <select name="role" class="span11">
-                  <option>user</option>
-                  <option>admin</option>
+                <select name="company_name" class="span11">
+                <?php
+                $res=mysqli_query($link,"select * from company_name");
+                while($row=mysqli_fetch_array($res)){
+                  echo "<option>";
+                  echo $row["company_name"];
+                  echo "</option>";
+                }
+                ?>
                 </select>
               </div>
             </div>
+
+            <div class="control-group">
+              <label class="control-label">Product Name :</label>
+              <div class="controls">
+                <input type="text" class="span11" placeholder="Product name" name="product_name"/>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label">Select unit</label>
+              <div class="controls">
+                <select name="unit" class="span11">
+                <?php
+                $res=mysqli_query($link,"select * from units");
+                while($row=mysqli_fetch_array($res)){
+                  echo "<option>";
+                  echo $row["unit"];
+                  echo "</option>";
+                }
+                ?>
+                </select>
+              </div>
+            </div>
+
+            
+            <div class="control-group">
+              <label class="control-label">Packing size :</label>
+              <div class="controls">
+                <input type="text" class="span11" placeholder="Packing size" name="packing_size"/>
+              </div>
+            </div>
+            
             <div class="alert alert-danger" id="error" style="display:none">
-            This Username already Exist! Please Try Another.
+            This Product already Exist! Please Try Another.
             </div>
             
             <div class="form-actions"> 
@@ -74,28 +89,28 @@ include "../user/connection.php";
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>User Name</th>
-                  <th>Role</th>
-                  <th>Status</th>
+                  <th>id</th>
+                  <th>Company Name</th>
+                  <th>Product Name</th>
+                  <th>Unit</th>
+                  <th>Packing size</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                $res=mysqli_query($link,"select * from user_registration");
+                $res=mysqli_query($link,"select * from products");
                 while($row=mysqli_fetch_array($res)){
                   ?>
                   <tr class="odd gradeX">
-                  <td><?php echo $row["firstname"];?></td>
-                  <td><?php echo $row["lastname"];?></td>
-                  <td><?php echo $row["username"];?></td>
-                  <td><?php echo $row["role"];?></td>
-                  <td><?php echo $row["status"];?></td>
-                  <td><a href="edit_user.php?id=<?php echo $row["id"]; ?>">Edit</a></td>
-                  <td><a href="delete_user.php?id=<?php echo $row["id"]; ?>">Delete</a></td>
+                  <td><center><?php echo $row["id"];?></center></td>
+                  <td><center><?php echo $row["company_name"];?></center></td>
+                  <td><center><?php echo $row["product_name"];?></center></td>
+                  <td><center><?php echo $row["unit"];?></center></td>
+                  <td><center><?php echo $row["packing_size"];?></center></td>
+                  <td><center><a href="edit_product.php?id=<?php echo $row["id"]; ?>"  style="color:green">Edit</a></center></td>
+                  <td><center><a href="delete_product.php?id=<?php echo $row["id"]; ?>" style="color:red" >Delete</a></center></td>
                 </tr>
                  <?php
                 }
@@ -112,7 +127,7 @@ include "../user/connection.php";
     if(isset($_POST["submit1"]))
     {
       $count=0;
-      $res=mysqli_query($link,"select * from user_registration where username='$_POST[username]'");
+      $res=mysqli_query($link,"select * from products where company_name='$_POST[company_name]' && product_name='$_POST[product_name]' && unit='$_POST[unit]' && packing_size='$_POST[paking_size]' ");
       $count=mysqli_num_rows($res);
       if($count>0)
       {
@@ -124,7 +139,7 @@ include "../user/connection.php";
        <?php
       }
       else{
-        mysqli_query($link,"insert into user_registration values(NULL,'$_POST[firstname]','$_POST[lastname]','$_POST[username]','$_POST[password]','$_POST[role]','active')")
+        mysqli_query($link,"insert into products values(NULL,'$_POST[company_name]','$_POST[product_name]','$_POST[unit]','$_POST[packing_size]') ")or die(mysqli_error($link));
         
         ?>
          <script type="text/javascript">

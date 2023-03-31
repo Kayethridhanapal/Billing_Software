@@ -7,7 +7,7 @@ include "../user/connection.php";
     <!--breadcrumbs-->
     <div id="content-header">
         <div id="breadcrumb"><a href="index.html"  class="tip-bottom"><i class="icon-home"></i>
-            Home</a></div>
+            Add new unit</a></div>
     </div>
     <!--End-breadcrumbs-->
 
@@ -18,45 +18,19 @@ include "../user/connection.php";
     <div class="span12">
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-          <h5>Add new user</h5>
+          <h5>Add new unit</h5>
         </div>
         <div class="widget-content nopadding">
           <form name="form1" action="" method="post" class="form-horizontal">
             <div class="control-group">
-              <label class="control-label">First Name :</label>
+              <label class="control-label">Unit Name :</label>
               <div class="controls">
-                <input type="text" class="span11" placeholder="First name" name="firstname"/>
+                <input type="text" class="span11" placeholder="Unit name" name="unit"/>
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Last Name :</label>
-              <div class="controls">
-                <input type="text" class="span11" placeholder="Last name" name="lastname"/>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">User Name :</label>
-              <div class="controls">
-                <input type="text" class="span11" placeholder="User name" name="username"/>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Password input</label>
-              <div class="controls">
-                <input type="password"  class="span11" placeholder="Enter Password" name="password" />
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Select role</label>
-              <div class="controls">
-                <select name="role" class="span11">
-                  <option>user</option>
-                  <option>admin</option>
-                </select>
-              </div>
-            </div>
+            
             <div class="alert alert-danger" id="error" style="display:none">
-            This Username already Exist! Please Try Another.
+            This Unit already Exist! Please Try Another.
             </div>
             
             <div class="form-actions"> 
@@ -74,28 +48,22 @@ include "../user/connection.php";
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>User Name</th>
-                  <th>Role</th>
-                  <th>Status</th>
+                  <th>id</th>
+                  <th>Unit Name</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                $res=mysqli_query($link,"select * from user_registration");
+                $res=mysqli_query($link,"select * from units");
                 while($row=mysqli_fetch_array($res)){
                   ?>
                   <tr class="odd gradeX">
-                  <td><?php echo $row["firstname"];?></td>
-                  <td><?php echo $row["lastname"];?></td>
-                  <td><?php echo $row["username"];?></td>
-                  <td><?php echo $row["role"];?></td>
-                  <td><?php echo $row["status"];?></td>
-                  <td><a href="edit_user.php?id=<?php echo $row["id"]; ?>">Edit</a></td>
-                  <td><a href="delete_user.php?id=<?php echo $row["id"]; ?>">Delete</a></td>
+                  <td><center><?php echo $row["id"];?></center></td>
+                  <td><center><?php echo $row["unit"];?></center></td>
+                  <td><center><a href="edit_unit.php?id=<?php echo $row["id"]; ?>"  style="color:green">Edit</a></center></td>
+                  <td><center><a href="delete_unit.php?id=<?php echo $row["id"]; ?>" style="color:red" >Delete</a></center></td>
                 </tr>
                  <?php
                 }
@@ -112,7 +80,7 @@ include "../user/connection.php";
     if(isset($_POST["submit1"]))
     {
       $count=0;
-      $res=mysqli_query($link,"select * from user_registration where username='$_POST[username]'");
+      $res=mysqli_query($link,"select * from units where unit='$_POST[unit]'");
       $count=mysqli_num_rows($res);
       if($count>0)
       {
@@ -124,7 +92,7 @@ include "../user/connection.php";
        <?php
       }
       else{
-        mysqli_query($link,"insert into user_registration values(NULL,'$_POST[firstname]','$_POST[lastname]','$_POST[username]','$_POST[password]','$_POST[role]','active')")
+        mysqli_query($link,"insert into units values(NULL,'$_POST[unit]') ")or die(mysqli_error($link));
         
         ?>
          <script type="text/javascript">

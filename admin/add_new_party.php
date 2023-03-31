@@ -7,7 +7,7 @@ include "../user/connection.php";
     <!--breadcrumbs-->
     <div id="content-header">
         <div id="breadcrumb"><a href="index.html"  class="tip-bottom"><i class="icon-home"></i>
-            Home</a></div>
+            Add new party</a></div>
     </div>
     <!--End-breadcrumbs-->
 
@@ -18,7 +18,7 @@ include "../user/connection.php";
     <div class="span12">
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-          <h5>Add new user</h5>
+          <h5>Add new party</h5>
         </div>
         <div class="widget-content nopadding">
           <form name="form1" action="" method="post" class="form-horizontal">
@@ -35,30 +35,31 @@ include "../user/connection.php";
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">User Name :</label>
+              <label class="control-label">Business Name :</label>
               <div class="controls">
-                <input type="text" class="span11" placeholder="User name" name="username"/>
+                <input type="text" class="span11" placeholder="Business name" name="businessname"/>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Password input</label>
+              <label class="control-label">Contact</label>
               <div class="controls">
-                <input type="password"  class="span11" placeholder="Enter Password" name="password" />
+                <input type="text"  class="span11" placeholder="Enter contact number" name="contact" />
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Select role</label>
+              <label class="control-label">Address</label>
               <div class="controls">
-                <select name="role" class="span11">
-                  <option>user</option>
-                  <option>admin</option>
-                </select>
-              </div>
+                <textarea class="span11" name="address"></textarea>
             </div>
-            <div class="alert alert-danger" id="error" style="display:none">
-            This Username already Exist! Please Try Another.
+            </div>
+            <div class="control-group">
+              <label class="control-label">City</label>
+              <div class="controls">
+                <input type="text"  class="span11" placeholder="Enter city" name="city" />
+              </div>
             </div>
             
+                        
             <div class="form-actions"> 
               <button type="submit" name="submit1" class="btn btn-success" >Save</button>
             </div>
@@ -76,26 +77,28 @@ include "../user/connection.php";
                 <tr>
                   <th>First Name</th>
                   <th>Last Name</th>
-                  <th>User Name</th>
-                  <th>Role</th>
-                  <th>Status</th>
+                  <th>Business Name</th>
+                  <th>Contact</th>
+                  <th>Address</th>
+                  <th>City</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                $res=mysqli_query($link,"select * from user_registration");
+                $res=mysqli_query($link,"select * from party_info");
                 while($row=mysqli_fetch_array($res)){
                   ?>
                   <tr class="odd gradeX">
                   <td><?php echo $row["firstname"];?></td>
                   <td><?php echo $row["lastname"];?></td>
-                  <td><?php echo $row["username"];?></td>
-                  <td><?php echo $row["role"];?></td>
-                  <td><?php echo $row["status"];?></td>
-                  <td><a href="edit_user.php?id=<?php echo $row["id"]; ?>">Edit</a></td>
-                  <td><a href="delete_user.php?id=<?php echo $row["id"]; ?>">Delete</a></td>
+                  <td><?php echo $row["businessname"];?></td>
+                  <td><?php echo $row["contact"];?></td>
+                  <td><?php echo $row["address"];?></td>
+                  <td><?php echo $row["city"];?></td>
+                  <td><a href="edit_party.php?id=<?php echo $row["id"]; ?>">Edit</a></td>
+                  <td><a href="delete_party.php?id=<?php echo $row["id"]; ?>">Delete</a></td>
                 </tr>
                  <?php
                 }
@@ -111,25 +114,13 @@ include "../user/connection.php";
     <?php
     if(isset($_POST["submit1"]))
     {
-      $count=0;
-      $res=mysqli_query($link,"select * from user_registration where username='$_POST[username]'");
-      $count=mysqli_num_rows($res);
-      if($count>0)
-      {
-       ?>
-       <script type="text/javascript">
-        document.getElementById("success").style.display="none";
-        document.getElementById("error").style.display="block";
-       </script>
-       <?php
-      }
-      else{
-        mysqli_query($link,"insert into user_registration values(NULL,'$_POST[firstname]','$_POST[lastname]','$_POST[username]','$_POST[password]','$_POST[role]','active')")
+      
+        mysqli_query($link,"insert into party_info values(NULL,'$_POST[firstname]','$_POST[lastname]','$_POST[businessname]','$_POST[contact]','$_POST[address]','$_POST[city]')") or die(mysqli_error($link));
         
         ?>
          <script type="text/javascript">
           document.getElementById("success").style.display="block";
-          document.getElementById("error").style.display="none";
+         
           setTimeout(function(){
             window.location.href=window.location.href;
           },500);
@@ -137,7 +128,7 @@ include "../user/connection.php";
          <?php
   
       }
-    }
+    
     
     ?>
 <!--end-main-container-part-->

@@ -53,6 +53,22 @@
         <li>
             <a href="add_new_user.php"><i class="icon icon-user"></i><span>Add new user</span></a>
         </li>
+        <li>
+            <a href="add_new_unit.php"><i class="icon icon-user"></i><span>Add new unit</span></a>
+        </li>
+        <li>
+            <a href="add_new_unit.php"><i class="icon icon-user"></i><span>Add new party</span></a>
+        </li>
+        <li>
+            <a href="add_new_company.php"><i class="icon icon-user"></i><span>Add new company</span></a>
+        </li>
+
+        <li>
+            <a href="add_new_product.php"><i class="icon icon-user"></i><span>Add new product</span></a>
+        </li>
+        <li>
+            <a href="purchase_master.php"><i class="icon icon-user"></i><span>Purchase master</span></a>
+        </li>
 
         <li class="submenu"><a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span
                 class="label label-important">3</span></a>
