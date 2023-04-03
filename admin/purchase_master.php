@@ -68,7 +68,7 @@ include "../user/connection.php";
             </div>
 
             <div class="control-group">
-              <label class="control-label">Quantity :</label>
+              <label class="control-label"> Enter Quantity :</label>
               <div class="controls">
       
                 <input type="text" name="qty" value="0" class="span11"/>
@@ -92,9 +92,9 @@ include "../user/connection.php";
                 <?php
                 $res=mysqli_query($link,"select * from party_info");
                 while($row=mysqli_fetch_array($res)){
-  echo "<option>";
-  echo $row["businessman"];
-  echo "</option>";
+                     echo "<option>";
+                      echo $row["businessname"];
+                       echo "</option>";
                 }
                 ?>
                 </select>
@@ -117,11 +117,6 @@ include "../user/connection.php";
               <div class="controls">
                 <input type="text" name="expiry_date" class="span11" placeholder="YY-MM_DD" required pattern="\d{4}-\d{2}-\d{2}"/>
               </div>
-            </div>
-
-
-            <div class="alert alert-danger" id="error" style="display:none">
-            This Product already Exist! Please Try Another.
             </div>
             
             <div class="form-actions"> 
@@ -161,7 +156,7 @@ function select_product(product_name,company_name){
   };
   xmlhttp.open("GET","forajax/load_unit_using_company.php?product_name="+product_name+"&company_name="+company_name,true);
   xmlhttp.send();
-  alert(product_name + "=="+ company_name);
+  
 }
 function select_unit(unit,product_name,company_name){
   var xmlhttp=new XMLHttpRequest();
@@ -172,7 +167,6 @@ function select_unit(unit,product_name,company_name){
   };
   xmlhttp.open("GET","forajax/load_packingsize_using_company.php?unit="+unit+"&product_name="+product_name+"&company_name="+company_name,true);
   xmlhttp.send();
-  alert(product_name + "=="+ company_name);
 }
 
 
