@@ -69,6 +69,12 @@
         <li>
             <a href="purchase_master.php"><i class="icon icon-user"></i><span>Purchase master</span></a>
         </li>
+        <li>
+            <a href="sales_master.php"><i class="icon icon-user"></i><span>Sales master</span></a>
+        </li>
+        <li>
+            <a href="stock_master.php"><i class="icon icon-user"></i><span>Stock master</span></a>
+        </li>
 
         <li class="submenu"><a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span
                 class="label label-important">3</span></a>

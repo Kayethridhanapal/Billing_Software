@@ -139,7 +139,7 @@ function select_company(company_name)
 {
   var xmlhttp=new XMLHttpRequest();
   xmlhttp.onreadystatechange=function(){
-    if(xmlhttp.readystate== 4 && xmlhttp.status==200){
+    if(xmlhttp.readyState== 4 && xmlhttp.status==200){
       document.getElementById("product_name_div").innerHTML=xmlhttp.responseText;
     }
   };
@@ -150,7 +150,7 @@ function select_company(company_name)
 function select_product(product_name,company_name){
   var xmlhttp=new XMLHttpRequest();
   xmlhttp.onreadystatechange=function(){
-    if(xmlhttp.readystate== 4 && xmlhttp.status==200){
+    if(xmlhttp.readyState== 4 && xmlhttp.status==200){
       document.getElementById("unit_div").innerHTML=xmlhttp.responseText;
     }
   };
@@ -161,7 +161,7 @@ function select_product(product_name,company_name){
 function select_unit(unit,product_name,company_name){
   var xmlhttp=new XMLHttpRequest();
   xmlhttp.onreadystatechange=function(){
-    if(xmlhttp.readystate== 4 && xmlhttp.status==200){
+    if(xmlhttp.readyState== 4 && xmlhttp.status==200){
       document.getElementById("packing_size_div").innerHTML=xmlhttp.responseText;
     }
   };
@@ -175,34 +175,29 @@ function select_unit(unit,product_name,company_name){
     <?php
     if(isset($_POST["submit1"]))
     {
+      mysqli_query($link,"insert into purchase_master values(NULL,'$_POST[company_name]','$_POST[product_name]','$_POST[unit]','$_POST[packing_size]','$_POST[qty]','$_POST[price]','$_POST[party_name]','$_POST[purchase_type]','$_POST[expiry_date]') ")or die(mysqli_error($link));
       $count=0;
-      $res=mysqli_query($link,"select * from products where company_name='$_POST[company_name]' && product_name='$_POST[product_name]' && unit='$_POST[unit]' && packing_size='$_POST[paking_size]' ");
+      $res=mysqli_query($link,"select * from stock_master where product_company='$_POST[company_name]' && product_name='$_POST[product_name]' && product_unit='$_POST[unit]' ");
       $count=mysqli_num_rows($res);
-      if($count>0)
+      if($count==0)
       {
-       ?>
-       <script type="text/javascript">
-        document.getElementById("success").style.display="none";
-        document.getElementById("error").style.display="block";
-       </script>
-       <?php
+        mysqli_query($link,"insert into stock_master values(NULL,'$_POST[company_name]','$_POST[product_name]','$_POST[unit]','$_POST[packing_size]','$_POST[qty]','0') ")or die(mysqli_error($link));
       }
       else{
-        mysqli_query($link,"insert into products values(NULL,'$_POST[company_name]','$_POST[product_name]','$_POST[unit]','$_POST[packing_size]') ")or die(mysqli_error($link));
-        
-        ?>
-         <script type="text/javascript">
-          document.getElementById("success").style.display="block";
-          document.getElementById("error").style.display="none";
-          setTimeout(function(){
-            window.location.href=window.location.href;
-          },500);
-         </script>
-         <?php
-  
+        mysqli_query($link,"update stock_master set product_qty=product_qty+$_POST[qty] where product_company='$_POST[company_name]' && product_name='$_POST[product_name]' && product_unit='$_POST[unit]'") or die(mysqli_error($link));
+         
       }
+
+       ?>
+       <script type="text/javascript">
+        document.getElementById("success").style.display="block";
+        
+       </script>
+       <?php
+      
     }
     
     ?>
 <!--end-main-container-part-->
 <?php include "footer.php";?>
+
