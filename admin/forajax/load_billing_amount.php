@@ -1,8 +1,7 @@
 <?php
 session_start();
-?>
 
-<?php
+
     $qty_session=0;
     $max=0;
     $gtotal=0;
@@ -24,7 +23,7 @@ session_start();
             }
         }
         
-       $gtotal=$gtotal+($qty_session*$price_session);
+       $gtotal=(int)$gtotal+((int)$qty_session*(int)$price_session);
           
     }
     }
@@ -33,4 +32,4 @@ session_start();
 ?>
 
                        
-                    </table>
+           

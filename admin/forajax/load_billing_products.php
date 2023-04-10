@@ -10,7 +10,6 @@ session_start();
     <th>Product Price</th>
     <th>Product Qty</th>
     <th>Total</th>
-    <th>Edit</th>
     <th>Delete</th>
 </tr>
 <?php
@@ -48,6 +47,7 @@ session_start();
                 $price_session=$val;
             }
         }
+        if($company_name_session!=""){
         ?>
         <tr>
         <td><?php echo $company_name_session; ?></td>
@@ -55,12 +55,13 @@ session_start();
         <td><?php echo $unit_session; ?></td>
         <td><?php echo $packing_size_session; ?></td>
         <td><?php echo $price_session; ?></td>
-        <td><?php echo $qty_session; ?></td>
+        <td><input type="text" id="tt<?php echo $i; ?>" value="<?php echo $qty_session;?>">&nbsp;<i class="fa fa-refresh" style="font-size:24px" onclick="edit_qty(document.getElementById('tt<?php echo $i;?>').value,'<?php echo $company_name_session;?>','<?php echo $product_name_session;?>','<?php echo $unit_session;?>','<?php echo $packing_size_session;?>','<?php echo $price_session;?>')"></i></td>
         <td><?php echo ($qty_session*$price_session); ?></td>
-        <td style="color: green">Edit</td>
-        <td style="color:red">Delete</td>
+       
+        <td style="color:red; cursor:pointer" onclick="delete_qty('<?php echo $i; ?>')">Delete</td>
     </tr>
     <?php
+     }
        
           
     }

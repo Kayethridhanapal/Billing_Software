@@ -1,9 +1,18 @@
 <?php
+session_start();
 include "header.php";
 include "../user/connection.php";
+$bill_id=0;
+$res=mysqli_query($link,"select * from billing_header order by id desc limit 1");
+while($row=mysqli_fetch_array($res)){
+  $bill_id=$row["id"];
+}
+
 ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div id="content">
+    <form name="form1" action="" method="post" class="form-horizontal nopadding">
         <!--breadcrumbs-->
         <div id="content-header">
             <div id="breadcrumb"><a href="index.html" class="tip-bottom"><i class="icon-home"></i>
@@ -11,7 +20,7 @@ include "../user/connection.php";
         </div>
 
         <div class="container-fluid"> 
-            <form name="form1" action="" method="post" class="form-horizontal nopadding">
+       
                 <div class="row-fluid" style="background-color: white; min-height: 100px; padding:10px;">
                     <div class="span12">
                         <div class="widget-box">
@@ -27,7 +36,7 @@ include "../user/connection.php";
 
                                     <div>
                                         <label>Full Name</label>
-                                        <input type="text" class="span12" name="full_name">
+                                        <input type="text" class="span12" name="full_name" required>
                                     </div>
                                 </div>
 
@@ -36,7 +45,7 @@ include "../user/connection.php";
 
                                     <div>
                                         <label>Bill Type</label>
-                                        <select class="span12" name="bill_type">
+                                        <select class="span12" name="bill_type_header">
                                             <option>Cash</option>
                                             <option>Debit</option>
                                         </select>
@@ -48,8 +57,19 @@ include "../user/connection.php";
 
                                     <div>
                                         <label>Date</label>
-                                        <input type="text" class="span12" name="date"
+                                        <input type="text" class="span12" name="bill_date"
                                                value="<?php echo date("Y-m-d") ?>"
+                                               readonly>
+                                    </div>
+                                </div>
+
+                                <div class="span2">
+                                    <br>
+
+                                    <div>
+                                        <label>Bill No</label>
+                                        <input type="text" class="span12" name="bill_no"
+                                               value="<?php echo generate_bill_no($bill_id); ?>"
                                                readonly>
                                     </div>
                                 </div>
@@ -158,7 +178,7 @@ include "../user/connection.php";
                 <!-- end new row-->
 
 
-            </form>
+        
 
 
 
@@ -177,12 +197,13 @@ include "../user/connection.php";
                     <br><br><br><br>
 
                     <center>
-                        <input type="submit" value="generate bill" class="btn btn-success">
+                        <input type="submit"name="submit1" value="generate bill" class="btn btn-success">
                     </center>
 
                 </div>
             </div>
         </div>
+        </form>
     </div>
 
     
@@ -292,10 +313,138 @@ function load_total_bill(){
   xmlhttp.send();
 }
 load_billing_products();
+function edit_qty(qty1,company_name1,product_name1,unit1,packing_size1,price1){
+    var product_company=company_name1;
+    var product_name=product_name1;
+    var unit=unit1;
+    var packing_size=packing_size1;
+    var price=price1;
+    var qty=qty1;
+    var total=eval(price)*eval(qty);
+    
+    var xmlhttp=new XMLHttpRequest();
+  xmlhttp.onreadystatechange=function(){
+    if(xmlhttp.readyState== 4 && xmlhttp.status==200){
+      if(xmlhttp.responseText==""){
+        load_billing_products();
+        alert("product addedd successfully");
+      }else{
+        load_billing_products();
+        alert(xmlhttp.responseText);
+      }
+    }
+  };
+  xmlhttp.open("GET","forajax/update_in_session.php?company_name="+product_company+"&product_name="+product_name+"&unit="+unit+"&packing_size="+packing_size+"&price="+price+"&qty="+qty+"&total="+total,true);
+  xmlhttp.send();
+}
+
+function delete_qty(sessionid){
+        
+    var xmlhttp=new XMLHttpRequest();
+  xmlhttp.onreadystatechange=function(){
+    if(xmlhttp.readyState== 4 && xmlhttp.status==200){
+      if(xmlhttp.responseText==""){
+        load_billing_products();
+        alert("product deleted successfully");
+      }else{
+        load_billing_products();
+        alert(xmlhttp.responseText);
+      }
+    }
+  };
+  xmlhttp.open("GET","forajax/delete_in_session.php?sessionid="+sessionid,true);
+  xmlhttp.send();
+}
 </script>
 
 
+<?php
+function generate_bill_no($id){
+  if($id==""){
+    $id=0;
+  }else{
+    $id1=$id;
+  }
+  $id1=$id1+1;
+  $len=strlen($id1);
+  if($len=="1"){
+    $id1="0000".$id1;
+  }
+  if($len=="2"){
+    $id1="000".$id1;
+  }
+  if($len=="3"){
+    $id1="00".$id1;
+  }
+  if($len=="4"){
+    $id1="0".$id1;
+  }
 
+  if($len=="5"){
+    $id1=$id1;
+  }
+  return $id1;
+
+if(isset($_POST["submit1"])){
+$lastbillno=0;
+mysqli_query($link,"insert into billing_header values(NULL,'$_POST[full_name]','$_POST[bill_type_header]','$_POST[bill_date]','$_POST[bill_no]')")or die(mysqli_error($link));
+$res=mysqli_query($link,"select * from billing_header order by desc limit 1");
+while($row=mysqli_fetch_array($res))
+{
+ $lastbillno=$row["id"];
+ 
+}
+
+$max=sizeof($_SESSION['cart']);
+for($i=0;$i<$max;$i++){
+  $company_name_session="";
+  $product_name_session="";
+  $unit_session="";
+  $packing_size_session="";
+  $price_session="";
+  if(isset($_SESSION['cart'][$i])){
+  
+  foreach($_SESSION['cart'][$i] as $key => $val){
+      if($key=="company_name"){
+          $company_name_session=$val;
+      }
+      else if($key=="product_name"){
+          $product_name_session=$val;
+      }
+      else if($key=="unit"){
+          $unit_session=$val;
+      }
+      else if($key=="packing_size"){
+          $packing_size_session=$val;
+      }
+      else if($key=="qty"){
+          $qty_session=$val;
+      }
+      else if($key=="price"){
+          $price_session=$val;
+      }
+  }
+  if($company_name_session!=""){
+    mysqli_query($link,"insert into billing_details values(NULL,'$lastbillno','$company_name_session','$product_name_session','$unit_session','$packing_size_session','$price_session','$qty_session')")or die(mysqli_error($link));
+  
+}
+ 
+  
+  }
+}
+}
+unset($_SESSION['cart']);
+?>
+<script type="text/javascript">
+  alert("bill generated successfully");
+  window.location.href= window.location.href;
+  </script>
+<?php
+  
+}
+
+
+?>
 
 
 

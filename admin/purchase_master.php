@@ -113,7 +113,7 @@ include "../user/connection.php";
             </div>
 
             <div class="control-group">
-              <label class="control-label">Expiry date :</label>
+              <label class="control-label">Date of Purchase :</label>
               <div class="controls">
                 <input type="text" name="expiry_date" class="span11" placeholder="YY-MM_DD" required pattern="\d{4}-\d{2}-\d{2}"/>
               </div>
