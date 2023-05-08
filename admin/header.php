@@ -30,13 +30,10 @@
     <ul class="nav">
         <li class="dropdown" id="profile-messages">
             <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i
-                    class="icon icon-user"></i> <span class="text">Welcome User</span><b class="caret"></b></a>
+                    class="icon icon-user"></i> <span class="text">Welcome Admin</span><b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
-                <li class="divider"></li>
-                <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
-                <li class="divider"></li>
-                <li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+                
+                <li><a href="logout.php"><i class="icon-key"></i> Log Out</a></li>
             </ul>
         </li>
 
@@ -52,9 +49,6 @@
         </li>
         <li>
             <a href="add_new_user.php"><i class="icon icon-user"></i><span>Add new user</span></a>
-        </li>
-        <li>
-            <a href="add_new_unit.php"><i class="icon icon-user"></i><span>Add new unit</span></a>
         </li>
         <li>
             <a href="add_new_party.php"><i class="icon icon-user"></i><span>Add new party</span></a>
@@ -75,21 +69,30 @@
         <li>
             <a href="stock_master.php"><i class="icon icon-user"></i><span>Stock master</span></a>
         </li>
+        <li>
+            <a href="view_bills.php"><i class="icon icon-user"></i><span>View Bills</span></a>
+        </li>
+        <li>
+            <a href="return_product_list.php"><i class="icon icon-user"></i><span>Return products list</span></a>
+        </li>
 
-        <!-- <li class="submenu"><a href="#"><i class="icon icon-th-list"></i> <span>Forms</span> <span
-                class="label label-important">3</span></a>
+         <li class="submenu"><a href="#"><i class="icon icon-th-list"></i> <span>Reports</span> <span
+                class="label label-important">+</span></a>
             <ul>
-                <li><a href="form-common.html">Basic Form</a></li>
-                <li><a href="form-validation.html">Form with Validation</a></li>
-                <li><a href="form-wizard.html">Form with Wizard</a></li>
-            </ul>
-        </li> -->
+                <li><a href="purchase_report.php">Purchase Report</a></li>
+                <li><a href="view_bills.php">Sales Report</a></li>
+                <li><a href="stock_master.php">Stock Report</a></li>
+                <li><a href="return_product_list.php">Return Products Report</a></li>
+                <li><a href="party_report_list.php">Party Report</a></li>
+                <li><a href="expiry_report.php">Expiry Report</a></li>
+           </ul>
+        </li> 
 
     </ul>
 </div>
 <!--sidebar-menu-->
 <div id="search">
 
-        <a href="index.html" style="color:white"><i class="icon icon-share-alt"></i><span>LogOut</span></a>
+        <a href="logout.php" style="color:white"><i class="icon icon-share-alt"></i><span>LogOut</span></a>
 
 </div>

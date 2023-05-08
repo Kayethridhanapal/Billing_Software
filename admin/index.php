@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include "../user/connection.php"
 ?>
 <!DOCTYPE html>
@@ -19,7 +19,7 @@ include "../user/connection.php"
 <body>
 <div id="loginbox">
     <form name="form1" class="form-vertical" action="" method="post">
-        <div class="control-group normal_text"><h3>Login Page</h3></div>
+        <div class="control-group normal_text"><h3>Admin Login Page</h3></div>
         <div class="control-group">
             <div class="controls">
                 <div class="main_input_box">
@@ -51,9 +51,10 @@ if(isset($_POST["submit1"]))
     $count=mysqli_num_rows($res);
     if($count>0)
     {
+        $_SESSION["admin"]=$username;
         ?>
         <script type="text/javascript">
-            window.location="demo.php";
+            window.location="dashboard.php";
         </script>
         <?php
     }

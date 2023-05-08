@@ -1,6 +1,6 @@
 <?php 
 session_start();
-if(!isset($_SESSION["admin"])){
+if(!isset($_SESSION["user"])){
   ?>
   <script type="text/javascript">
   window.location="index.php";
@@ -40,7 +40,6 @@ include "../user/connection.php";
                   <th>Packing size</th>
                   <th>Product Quantity</th>
                   <th>Product Selling Price</th>
-                  <th>Edit</th>
                   </tr>
               </thead>
               <tbody>
@@ -58,8 +57,7 @@ include "../user/connection.php";
                   <td><center><?php echo $row["packing_size"];?></center></td>
                   <td><center><?php echo $row["product_qty"];?></center></td>
                   <td><center><?php echo $row["product_selling_price"];?></center></td>
-                  <td><center><a href="edit_stock_master.php?id=<?php echo $row["id"]; ?>"  style="color:green">Edit</a></center></td>
-                  </tr>
+                 </tr>
                  <?php
                 }
                 ?>

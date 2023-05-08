@@ -1,3 +1,13 @@
+<?php 
+session_start();
+if(!isset($_SESSION["admin"])){
+  ?>
+  <script type="text/javascript">
+  window.location="index.php";
+  </script>
+  <?php
+}
+?>
 <?php
 include "header.php";
 include "../user/connection.php";
@@ -57,6 +67,7 @@ while($row=mysqli_fetch_array($res))
 
     </div>
 </div>
+
 
 <?php
 if(isset($_POST["submit1"]))
